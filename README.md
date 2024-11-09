@@ -1,108 +1,58 @@
 ### Awesome Custom Environment (ACE)
 Contributors: Shane Rounce  
-Tags: custom fields, block editor, dynamic content, WordPress  
+Tags: admin theme, color palette, dark mode, WordPress customization  
 Tested up to: 6.7  
 Stable tag: 0.420.0  
 License: GPL-2.0-or-later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
-Awesome Custom Environment (ACE) brings advanced custom field management to the WordPress block editor, enabling streamlined editing and enhanced content flexibility.
+Awesome Custom Environment (ACE) offers a powerful, intuitive way to customize the WordPress admin dashboard’s color palette and theme settings. This plugin includes options for day and night modes, color customization of the admin bar, and introduces a new React-based UI for creating custom color themes.
 
 ---
 
 ### Description
 
-ACE offers a powerful solution for managing and rendering custom fields in the WordPress block editor, allowing users to define dropdowns, true/false fields, and other custom field types. Built with a modular architecture and supporting real-time updates, ACE provides an intuitive UI to set up custom fields, organize field groups, and dynamically display content based on user-defined options.
+ACE empowers WordPress administrators to personalize their dashboard's appearance with flexible color customization options. Designed for multi-user adaptability and ease of use, ACE is ideal for users looking to apply brand colors or adjust color schemes for accessibility and comfort in different lighting conditions. The latest version introduces a React-based UI for creating custom admin themes, simplifying the process of color customization even further.
 
 Key Features:
-- **Custom Field Groups**: Easily create and manage field groups with support for dropdowns, true/false toggles, checkboxes, and radio buttons.
-- **Dynamic Block Editor Integration**: Integrates field groups directly into the WordPress editor with customized settings for seamless editing.
-- **Real-time Updates**: Uses AJAX for efficient, real-time updates to settings and field groups without page reloads.
-- **REST API Support**: Provides custom REST API endpoints for fetching and rendering custom field data.
-- **Role-Based Access**: Limit visibility and edit access based on user roles to ensure content integrity.
-- **Post Type Assignment**: Associate field groups with specific post types for targeted content management.
-- **Tagging System**: Organize field groups with tags for easy searching and filtering.
-- **Pagination and Sorting**: Navigate field groups with pagination and sort options for efficient management.
-- **UI Customization**: Adjust field group appearance using color pickers and styling options.
-- **Custom Hooks**: Extend functionality through custom hooks for fetching and saving field data.
-- **Error Handling and Optimization**: Enhanced error handling to improve reliability, especially for meta value updates.
-
----
-
-### API Endpoints
-
-ACE provides the following custom REST API endpoints:
-
-- **GET /ace/v1/get-choices**: Retrieves available field choices.
-- **POST /ace/v1/save-options**: Saves new or updated options.
-- **POST /ace/v1/delete-option**: Deletes a specified option.
-- **GET /ace/v1/roles**: Retrieves available user roles.
-
-These endpoints streamline data retrieval and field management within the WordPress admin interface.
-
----
-
-### Components
-
-ACE includes modular React components designed for a seamless experience:
-
-- **Settings Panel**: Central management interface for field groups and options.
-- **OptionCards**: Displays individual field options for customization.
-- **SideBar**: Provides sorting, filtering, and search capabilities for field groups.
-- **SaveBar**: Manages the saving status and confirmation messages.
-- **MainSettingsPanel**: The main component for configuring ACE settings and choices.
-
----
-
-### State Management
-
-ACE leverages React hooks for efficient state management:
-
-- **useState**: Manages local component states.
-- **useEffect**: Controls side effects, including data fetching and updating.
-- **useReducer**: (If applicable) Manages complex state logic and field configurations.
-
-These hooks ensure a cohesive data flow across components.
-
----
-
-### Custom Hooks
-
-ACE includes the following custom hooks to simplify component logic:
-
-- **useFetchChoices**: Retrieves choices from the API, with built-in loading state.
-- **useSaveOption**: Manages option saving to the API and updates the local state.
+- **Custom Color Palettes**: Create and save unique color palettes to apply across the admin interface.
+- **Day and Night Mode Switching**: Toggle between light and dark modes directly from the top admin bar or within settings for adaptable usage.
+- **Admin Bar Color Control**: Customize the color of the top admin bar independently to match your theme or preferences.
+- **Palette Management**: Save and organize multiple color palettes, allowing users to easily switch between themes.
+- **React-based UI for Color Theme Creation**: Includes an interactive interface for creating and editing custom color themes with live previews.
+- **User-Based Preferences**: Each WordPress user can choose their own theme, making ACE ideal for multi-user setups.
+- **Accessibility Enhancements**: Improved contrast options for better readability and accessibility.
 
 ---
 
 ### Installation
 
-1. Upload the plugin files to `/wp-content/plugins/ace-custom-environment` or install directly through the WordPress plugins screen.
+1. Upload the plugin files to `/wp-content/plugins/ace-custom-environment` or install the plugin directly from the WordPress plugins screen.
 2. Activate the plugin via the WordPress 'Plugins' screen.
-3. Go to **Settings > ACE Fields** to begin configuring field groups and options.
+3. Navigate to **Settings > Admin Color Options** to begin customizing your admin color theme.
 
 ---
 
 ### Frequently Asked Questions
 
-**Q: How can I add a new dropdown group or true/false field?**  
-A: Navigate to **Settings > ACE Fields** to create, edit, or delete custom field groups.
+**Q: How do I toggle between day and night modes?**  
+A: You can toggle between modes using the switch in the top admin bar or adjust preferences in **Settings > Admin Color Options**.
 
-**Q: How do I assign specific roles to field groups?**  
-A: When creating or editing a field group, use the 'Associated Roles' section to restrict access to certain user roles.
+**Q: How do I create a new color palette?**  
+A: Use the React-based interface in **Settings > Admin Color Options** to create and save custom color themes with live previews.
 
-**Q: Can I associate field groups with specific post types?**  
-A: Yes. Use the 'Associated Post Types' option when creating or editing field groups.
+**Q: Can each user set their own admin theme?**  
+A: Yes! Each WordPress user can personalize their admin colors and modes independently, allowing for a fully tailored user experience.
 
-**Q: How can I search for field groups and options?**  
-A: Use the search bar within **Settings > ACE Fields** to find specific fields and options.
+**Q: How can I set a specific color for the admin bar?**  
+A: You’ll find an option to choose and preview a color for the top admin bar within the **Settings > Admin Color Options** page.
 
 ---
 
 ### Screenshots
 
-1. **Settings Screen**: Interface for managing custom field groups and options.
-2. **Editor Integration**: Example of ACE field integration within the block editor.
+1. **Settings Screen** - Main interface for selecting color palettes, toggling modes, and managing admin bar color.
+2. **React UI for Theme Creation** - Interface for building and saving custom color themes.
 
 ---
 
@@ -110,14 +60,14 @@ A: Use the search bar within **Settings > ACE Fields** to find specific fields a
 
 **0.420.0**
 - Initial beta release.
-- Support for custom dropdown, checkbox, radio button, and true/false fields.
-- Integration with WordPress REST API for dynamic content rendering.
-- Real-time AJAX updates for field management.
-- Modular settings interface with search, pagination, and sorting options.
-- Tagging, role-based access, and post-type-specific field assignments.
+- Added support for custom admin color palettes.
+- Integrated day and night mode switching via the admin bar.
+- Introduced palette management for saving multiple themes.
+- Launched React-based UI for creating and previewing custom admin color themes.
+- Enhanced user-specific preferences for a multi-user environment.
 
 ---
 
 ### Additional Information
 
-ACE empowers developers and content creators to build flexible, dynamic content workflows in WordPress by extending the block editor’s capabilities. Perfect for those looking to enhance the WordPress editing experience with custom field support.
+ACE provides WordPress users with a customizable admin experience, allowing personalized color themes, accessibility enhancements, and efficient color theme management. Whether you’re applying brand colors or improving readability, ACE’s dynamic admin theme options simplify the process.
