@@ -1,0 +1,38 @@
+{
+  "name": "custom-admin-color-options",
+  "version": "0.420.0",
+  "description": "WordPress admin color scheme options with live preview",
+  "author": "Shane Rounce",
+  "license": "GPL-2.0-or-later",
+  "main": "assets/js/color-create.js",
+  "scripts": {
+    "build": "npm-run-all clean-assets build-js build-css",
+    "build-js": "webpack --config webpack.config.js --mode=production",
+    "dev-js": "webpack --config webpack.config.js --mode=development --watch",
+    "build-css": "sass src/scss/admin-color-options.scss:assets/css/admin-color-options.css --no-source-map --style=compressed",
+    "clean-assets": "rm -rf assets/js && mkdir -p assets/js",
+    "watch-css": "chokidar 'src/scss/**/*.scss' -c 'npm run build-css'",
+    "start": "npm-run-all dev-js watch-css",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style src/scss/**/*.scss --fix",
+    "lint:js": "wp-scripts lint-js src/**/*.js",
+    "packages-update": "wp-scripts packages-update",
+    "plugin-zip": "wp-scripts plugin-zip"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^30.3.0",
+    "chokidar-cli": "^3.0.0",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.80.4"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@wordpress/api-fetch": "^7.11.0",
+    "@wordpress/components": "^28.11.0",
+    "@wordpress/element": "^5.35.0",
+    "@wordpress/i18n": "^5.11.0",
+    "@wordpress/icons": "^10.10.0"
+  }
+}
