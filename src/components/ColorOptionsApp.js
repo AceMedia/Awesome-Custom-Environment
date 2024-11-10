@@ -1,70 +1,65 @@
-// /src/components/ColorOptionsApp.js
 import { useState, useEffect } from '@wordpress/element';
-import { Button, PanelBody, PanelRow, ColorPalette, TextControl, IconButton, Notice } from '@wordpress/components';
+import { 
+    Button, 
+    PanelRow, 
+    ColorPalette, 
+    IconButton, 
+    Notice, 
+    TextControl, 
+    Card, 
+    CardHeader,
+    PanelBody 
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-
-const MAX_COLORS = 5;
-const MAX_PALETTES = 10;
 
 const ColorOptionsApp = () => {
     const [palettes, setPalettes] = useState([]);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        // Load palettes from wp_options on component mount
         apiFetch({ path: '/wp/v2/color-options' })
             .then((data) => {
                 if (data && data.palettes) {
-                    setPalettes(data.palettes);
+                    // Add 'isOpen' property to each palette to manage the collapse state
+                    setPalettes(data.palettes.map(palette => ({ ...palette, isOpen: false })));
                 }
             })
             .catch((error) => console.error('Error loading palettes:', error));
     }, []);
 
     const addPalette = () => {
-        if (palettes.length < MAX_PALETTES) {
-            const newPalette = { id: Date.now(), name: '', colors: [] };
-            setPalettes([...palettes, newPalette]);
-        } else {
-            setMessage(__('Maximum of 10 palettes allowed.', 'custom-admin-color-options'));
-        }
+        const newPalette = {
+            id: Date.now(),
+            name: '',
+            colors: Array.from({ length: 5 }, () => ({ id: Date.now() + Math.random(), color: '#000000' })),
+            isOpen: true // New palettes are open by default
+        };
+        setPalettes([...palettes.map(p => ({ ...p, isOpen: false })), newPalette]);
     };
 
-    const addColor = (paletteId) => {
-        setPalettes(
-            palettes.map(palette =>
-                palette.id === paletteId && palette.colors.length < MAX_COLORS
-                    ? { ...palette, colors: [...palette.colors, { id: Date.now(), name: '', color: '#000000' }] }
-                    : palette
-            )
-        );
+    const togglePaletteOpen = (paletteId) => {
+        setPalettes(palettes.map(palette => 
+            palette.id === paletteId 
+                ? { ...palette, isOpen: !palette.isOpen } 
+                : { ...palette, isOpen: false } // Collapse all others
+        ));
     };
 
     const updatePaletteName = (paletteId, name) => {
         setPalettes(palettes.map(palette => palette.id === paletteId ? { ...palette, name } : palette));
     };
 
-    const updateColor = (paletteId, colorId, key, value) => {
+    const updateColor = (paletteId, colorId, value) => {
         setPalettes(palettes.map(palette => {
             if (palette.id === paletteId) {
                 return {
                     ...palette,
-                    colors: palette.colors.map(color => color.id === colorId ? { ...color, [key]: value } : color)
+                    colors: palette.colors.map(color => color.id === colorId ? { ...color, color: value } : color)
                 };
             }
             return palette;
         }));
-    };
-
-    const removeColor = (paletteId, colorId) => {
-        setPalettes(
-            palettes.map(palette =>
-                palette.id === paletteId
-                    ? { ...palette, colors: palette.colors.filter(color => color.id !== colorId) }
-                    : palette
-            )
-        );
     };
 
     const removePalette = (paletteId) => {
@@ -90,57 +85,42 @@ const ColorOptionsApp = () => {
             {message && <Notice status="info" isDismissible>{message}</Notice>}
             
             {palettes.map((palette) => (
-                <PanelBody
-                    key={palette.id}
-                    title={palette.name || __('Untitled Palette', 'custom-admin-color-options')}
-                    initialOpen={true}
-                >
-                    <TextControl
-                        label={__('Palette Name', 'custom-admin-color-options')}
-                        value={palette.name}
-                        onChange={(value) => updatePaletteName(palette.id, value)}
-                        placeholder={__('Enter palette name...', 'custom-admin-color-options')}
-                    />
-
-                    {palette.colors.map((color) => (
-                        <PanelRow key={color.id} className="color-panel-row">
-                            <TextControl
-                                label={__('Color Name', 'custom-admin-color-options')}
-                                value={color.name}
-                                onChange={(value) => updateColor(palette.id, color.id, 'name', value)}
-                                placeholder={__('Enter color name...', 'custom-admin-color-options')}
-                            />
-                            <ColorPalette
-                                value={color.color}
-                                onChange={(value) => updateColor(palette.id, color.id, 'color', value)}
-                                disableCustomColors={false}  // Allows custom colors
-                            />
-                            <IconButton
-                                icon="trash"
-                                label={__('Remove Color', 'custom-admin-color-options')}
-                                onClick={() => removeColor(palette.id, color.id)}
-                                className="remove-color-btn"
-                            />
-                        </PanelRow>
-                    ))}
-
-                    {palette.colors.length < MAX_COLORS && (
-                        <PanelRow>
-                            <Button isPrimary onClick={() => addColor(palette.id)}>
-                                {__('Add New Color', 'custom-admin-color-options')}
-                            </Button>
-                        </PanelRow>
-                    )}
-
-                    <PanelRow>
-                        <IconButton
-                            icon="trash"
-                            label={__('Remove Palette', 'custom-admin-color-options')}
-                            onClick={() => removePalette(palette.id)}
-                            className="remove-palette-btn"
+                <Card key={palette.id} className="color-palette-card">
+                    <CardHeader
+                        onClick={() => togglePaletteOpen(palette.id)}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <TextControl
+                            label={__('Palette Name', 'custom-admin-color-options')}
+                            value={palette.name}
+                            onChange={(value) => updatePaletteName(palette.id, value)}
+                            placeholder={__('Enter palette name...', 'custom-admin-color-options')}
                         />
-                    </PanelRow>
-                </PanelBody>
+                    </CardHeader>
+                    {palette.isOpen && (
+                        <PanelBody>
+                            <div className="color-palette-container" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                                {palette.colors.map((color) => (
+                                    <div key={color.id} style={{ flex: '1', minWidth: '80px' }}>
+                                        <ColorPalette
+                                            value={color.color}
+                                            onChange={(value) => updateColor(palette.id, color.id, value)}
+                                            disableCustomColors={false}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                            <PanelRow>
+                                <IconButton
+                                    icon="trash"
+                                    label={__('Remove Palette', 'custom-admin-color-options')}
+                                    onClick={() => removePalette(palette.id)}
+                                    className="remove-palette-btn"
+                                />
+                            </PanelRow>
+                        </PanelBody>
+                    )}
+                </Card>
             ))}
 
             <PanelRow>

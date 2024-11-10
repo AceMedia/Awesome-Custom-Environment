@@ -147,3 +147,33 @@
       }
     }
     
+
+
+    #wpadminbar img.emoji {
+      margin-top: 4px !important;
+    }
+
+
+    button.components-color-palette__custom-color-button{
+      display: block;
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+      border: none;
+    }
+
+    .components-color-palette__custom-color-name,
+    .components-circular-option-picker__custom-clear-wrapper {
+      display: none !important;
+    }
+
+    .color-options-app {
+      gap: 1em;
+      display: grid;
+      > * {
+        flex: 1 1 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+      }
+    }
