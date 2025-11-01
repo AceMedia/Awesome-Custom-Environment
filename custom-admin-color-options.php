@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Custom Admin Color Options 2
+Plugin Name: Custom Admin Color Options
 Description: Adds color scheme options to the WordPress admin bar on all wp-admin pages with live preview.
 Version: 0.420.0
 Author: Shane Rounce
